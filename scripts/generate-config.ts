@@ -16,15 +16,15 @@ const vault = require('node-vault')({
 const provider = new ethers.providers.JsonRpcProvider(process.env.JSON_RPC || 'JSON_RPC-not-set')
 
 function makeVaultPath(root: string, network: string, phase: string) {
-    return `${root}%2F${network}%2F${phase}`
+    return `${root}/${network}/${phase}`
 }
 
 async function generateDeployer(contractName: string, secretPrefix: string) {
-    const wallet = new ethers.Wallet(ethers.Wallet.createRandom(), provider)
+    let wallet = new ethers.Wallet(ethers.Wallet.createRandom(), provider)
 
-    const vaultPath = makeVaultPath(contractName, networkName, phaseName)
-    const keySecret = `${secretPrefix}_DEPLOYER_KEY`
-    const addressSecret = `${secretPrefix}_DEPLOYER_ADDRESS`
+    let vaultPath = makeVaultPath(contractName, networkName, phaseName)
+    let keySecret = `${secretPrefix}_DEPLOYER_KEY`
+    let addressSecret = `${secretPrefix}_DEPLOYER_ADDRESS`
     if(isLive) {
         let data = { "data": { [keySecret]: wallet.privateKey, [addressSecret]: wallet.address } }
         console.log(`${vaultPath} = ${JSON.stringify(data)}`)
@@ -36,14 +36,14 @@ async function generateDeployer(contractName: string, secretPrefix: string) {
 }
 
 async function generateDeployerAndOperator(contractName: string, secretPrefix: string) {
-    const deployer = new ethers.Wallet(ethers.Wallet.createRandom(), provider)
-    const operator = new ethers.Wallet(ethers.Wallet.createRandom(), provider)
+    let deployer = new ethers.Wallet(ethers.Wallet.createRandom(), provider)
+    let operator = new ethers.Wallet(ethers.Wallet.createRandom(), provider)
 
-    const vaultPath = makeVaultPath(contractName, networkName, phaseName)
-    const deployerKeySecret = `${secretPrefix}_DEPLOYER_KEY`
-    const deployerAddressSecret = `${secretPrefix}_DEPLOYER_ADDRESS`
-    const operatorKeySecret = `${secretPrefix}_OPERATOR_KEY`
-    const operatorAddressSecret = `${secretPrefix}_OPERATOR_ADDRESS`
+    let vaultPath = makeVaultPath(contractName, networkName, phaseName)
+    let deployerKeySecret = `${secretPrefix}_DEPLOYER_KEY`
+    let deployerAddressSecret = `${secretPrefix}_DEPLOYER_ADDRESS`
+    let operatorKeySecret = `${secretPrefix}_OPERATOR_KEY`
+    let operatorAddressSecret = `${secretPrefix}_OPERATOR_ADDRESS`
     if(isLive) {
         let data = { "data": { 
             [deployerKeySecret]: deployer.privateKey, [deployerAddressSecret]: deployer.address, 

@@ -17,7 +17,7 @@ job "generate-config" {
             driver = "docker"
 
             config {
-                image = "ghcr.io/ator-development/script-runner:0.2.5"
+                image = "ghcr.io/ator-development/script-runner:0.2.6"
                 entrypoint = ["npx"]
                 command = "hardhat"
                 args = ["run", "--network", "sepolia", "scripts/generate-config.ts"]
