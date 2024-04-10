@@ -7,6 +7,7 @@ const networkName = process.env.NETWORK_NAME || 'NETWORK_NAME-not-set'
 const phaseName = process.env.PHASE_NAME || 'PHASE_NAME-not-set'
 
 const vault = require('node-vault')({
+    apiVersion: 'v1',
     pathPrefix: '/kv/data/',
     endpoint: process.env.VAULT_URI || 'http://127.0.0.1:8200',
     token: process.env.VAULT_TOKEN || 'invalid-token'
@@ -14,14 +15,14 @@ const vault = require('node-vault')({
 
 const provider = new ethers.providers.JsonRpcProvider(process.env.JSON_RPC || 'JSON_RPC-not-set')
 
-function makePath(root: string, network: string, phase: string) {
-    return `${root}/${network}/${phase}`
+function makeVaultPath(root: string, network: string, phase: string) {
+    return `${root}%2F${network}%2F${phase}`
 }
 
 async function generateDeployer(contractName: string, secretPrefix: string) {
     const wallet = new ethers.Wallet(ethers.Wallet.createRandom(), provider)
 
-    const vaultPath = makePath(contractName, networkName, phaseName)
+    const vaultPath = makeVaultPath(contractName, networkName, phaseName)
     const keySecret = `${secretPrefix}_DEPLOYER_KEY`
     const addressSecret = `${secretPrefix}_DEPLOYER_ADDRESS`
     if(isLive) {
@@ -36,7 +37,7 @@ async function generateDeployerAndOperator(contractName: string, secretPrefix: s
     const deployer = new ethers.Wallet(ethers.Wallet.createRandom(), provider)
     const operator = new ethers.Wallet(ethers.Wallet.createRandom(), provider)
 
-    const vaultPath = makePath(contractName, networkName, phaseName)
+    const vaultPath = makeVaultPath(contractName, networkName, phaseName)
     const deployerKeySecret = `${secretPrefix}_DEPLOYER_KEY`
     const deployerAddressSecret = `${secretPrefix}_DEPLOYER_ADDRESS`
     const operatorKeySecret = `${secretPrefix}_OPERATOR_KEY`
@@ -69,7 +70,7 @@ async function main() {
         await adminWallet.sendTransaction({ to: registratorOperatorAddress, value: ethers.utils.parseEther('0.1') })
         await adminWallet.sendTransaction({ to: facilitatorDeployerAddress, value: ethers.utils.parseEther('0.01') })
         await adminWallet.sendTransaction({ to: facilitatorOperatorAddress, value: ethers.utils.parseEther('0.1') })
-        console.log(`Send initial funding coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`)
+        console.log(`Sent initial funding coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`)
     } else console.log(`Skipping sending coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`)
 
     console.log('DONE')
