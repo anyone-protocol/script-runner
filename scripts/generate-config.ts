@@ -26,7 +26,9 @@ async function generateDeployer(contractName: string, secretPrefix: string) {
     const keySecret = `${secretPrefix}_DEPLOYER_KEY`
     const addressSecret = `${secretPrefix}_DEPLOYER_ADDRESS`
     if(isLive) {
-        await vault.write(vaultPath, `{ "data": { "${keySecret}": "${wallet.privateKey}", "${addressSecret}": "${wallet.address}" } }`)
+        let data = { "data": { [keySecret]: wallet.privateKey, [addressSecret]: wallet.address } }
+        console.log(`${vaultPath} = ${JSON.stringify(data)}`)
+        await vault.write(vaultPath, data)
         console.log(`Stored ${vaultPath}`)
     } else console.log(`Not live. Skipping ${vaultPath}`)
 
@@ -43,7 +45,12 @@ async function generateDeployerAndOperator(contractName: string, secretPrefix: s
     const operatorKeySecret = `${secretPrefix}_OPERATOR_KEY`
     const operatorAddressSecret = `${secretPrefix}_OPERATOR_ADDRESS`
     if(isLive) {
-        await vault.write(vaultPath, `{ "data": { "${deployerKeySecret}": "${deployer.privateKey}", "${deployerAddressSecret}": "${deployer.address}", "${operatorKeySecret}": "${operator.privateKey}", "${operatorAddressSecret}": "${operator.address}" } }`)
+        let data = { "data": { 
+            [deployerKeySecret]: deployer.privateKey, [deployerAddressSecret]: deployer.address, 
+            [operatorKeySecret]: operator.privateKey, [operatorAddressSecret]: operator.address 
+        } }
+        console.log(`${vaultPath} = ${JSON.stringify(data)}`)
+        await vault.write(vaultPath, data)
         console.log(`Stored ${vaultPath}`)
     } else console.log(`Not live. Skipping ${vaultPath}`)
 
