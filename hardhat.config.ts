@@ -19,7 +19,11 @@ const config: HardhatUserConfig = {
       // timeout: 1800000
     },
     goerli: {
-      url: "https://ethereum-sepolia.publicnode.com",
+      url: "https://ethereum-goerli.publicnode.com",
+      accounts: [],
+    },
+    sepolia: {
+      url: "https://ethereum-goerli.publicnode.com",
       accounts: [],
     },
   }

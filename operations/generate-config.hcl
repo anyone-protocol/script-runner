@@ -80,7 +80,7 @@ job "generate-config" {
 
         config {
             network_mode = "host"
-            image = "ghcr.io/ator-development/script-runner:0.1.3"
+            image = "ghcr.io/ator-development/script-runner:0.1.4"
             entrypoint = ["npx"]
             command = "hardhat"
             args = ["run", "--network", "sepolia", "scripts/generate-config.ts"]
