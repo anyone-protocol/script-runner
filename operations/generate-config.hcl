@@ -2,7 +2,7 @@
 # + Sepolia ETH funded admin account
 # + vault policy: deploy-admin allowing this job to...
 #       read vault: deploy-admin/DEPLOY_ADMIN_KEY
-# - vault token - VAULT_DEPLOY_CONFIG_TOKEN: 
+# + vault token - VAULT_DEPLOY_CONFIG_TOKEN: 
 #       vault token create -display-name=generate-secrets-sepolia -ttl=7d -policy=generate-secrets-sepolia -renewable=false -type=batch
 #       generate-secrets-sepolia policy to update vault values:
 #           ator-token/sepolia/+/TOKEN_DEPLOYER_KEY
@@ -28,7 +28,7 @@
 # Scripted:
 # * vault:TOKEN_DEPLOYER_KEY - key of the deployer account for the token
 # * consul:deployer-address - address of the deployer account for the token
-# * send Sepolia tokens from admin to each of generated deployer addresses
+# * send Sepolia tokens from admin to the generated address
 #
 # ==== ready to run deploy scripts (deploy -> remove-limits + enable-trading) from ator-token/operations
 #
@@ -43,9 +43,9 @@
 # Scripted:
 # * vault:REGISTRATOR_OPERATOR_ADDRESS
 # * vault:REGISTRATOR_OPERATOR_KEY
-# * vault:REGISTRATOR_DEPLOYER_KEY - key of the deployer account for the registrator
-# * consul:deployer-address - address of the deployer account for the registrator
-# * send Sepolia tokens from admin to each of generated deployer addresses
+# * vault:REGISTRATOR_DEPLOYER_ADDRESS
+# * vault:REGISTRATOR_DEPLOYER_KEY
+# * send Sepolia tokens from admin to each of generated addresses
 #
 # ==== ready to run deploy script from registrator/operations
 # 
@@ -60,9 +60,10 @@
 # Scripted:
 # * vault:FACILITATOR_OPERATOR_ADDRESS
 # * vault:FACILITATOR_OPERATOR_KEY
-# * vault:FACILITATOR_DEPLOYER_KEY - key of the deployer account for the facilitator
+# * vault:FACILITATOR_DEPLOYER_ADDRESS
+# * vault:FACILITATOR_DEPLOYER_KEY
 # * consul:deployer-address - address of the deployer account for the facilitator
-# * send Sepolia tokens from admin to each of generated deployer addresses
+# * send Sepolia tokens from admin to each of generated addresses
 #
 # ==== ready to run deploy script from facilitator/operations
 # - send new ATOR tokens to new facilitator contracts (dev, stage, live)
@@ -80,7 +81,7 @@ job "generate-config" {
 
         config {
             network_mode = "host"
-            image = "ghcr.io/ator-development/script-runner:0.1.4"
+            image = "ghcr.io/ator-development/script-runner:0.2.0"
             entrypoint = ["npx"]
             command = "hardhat"
             args = ["run", "--network", "sepolia", "scripts/generate-config.ts"]
