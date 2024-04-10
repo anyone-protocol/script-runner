@@ -15,7 +15,7 @@ const vault = require('node-vault')({
 const provider = new ethers.providers.JsonRpcProvider(process.env.JSON_RPC || 'JSON_RPC-not-set')
 
 function makePath(root: string, network: string, phase: string) {
-    return `${root}/${network}/${phase}`
+    return `kv/${root}/${network}/${phase}`
 }
 
 async function generateKeyPair(contractName: string, secretPrefix: string) {
@@ -26,14 +26,16 @@ async function generateKeyPair(contractName: string, secretPrefix: string) {
     
     if(isLive) {
         await vault.write(vaultKeyPath, { value: wallet.privateKey })
+        console.log(`Stored ${vaultKeyPath}`)
         await vault.write(vaultAddressPath, { value: wallet.address })
+        console.log(`Stored ${vaultAddressPath}`)
     } else console.log(`Not live. Skipping set up of\n VAULT:${vaultKeyPath} => ${wallet.privateKey}\n VAULT:${vaultAddressPath} => ${wallet.address}`)
 
     return wallet.address
 }
 
 async function main() {
-    console.log(`Starting with LIVE: ${isLive}`)
+    console.log(`Starting with LIVE: ${isLive} in:${phaseName} network:${networkName}`)
     if (isLive) {
         console.log('Waiting for 30s before starting live operations!')
         await new Promise(r => setTimeout(r, 30000));
@@ -56,6 +58,7 @@ async function main() {
         await adminWallet.sendTransaction({ to: registratorOperatorAddress, value: ethers.utils.parseEther('0.1') })
         await adminWallet.sendTransaction({ to: facilitatorDeployerAddress, value: ethers.utils.parseEther('0.01') })
         await adminWallet.sendTransaction({ to: facilitatorOperatorAddress, value: ethers.utils.parseEther('0.1') })
+        console.log(`Send initial funding coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`
     } else console.log(`Skipping sending coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`)
 
     console.log('DONE')
