@@ -34,7 +34,7 @@ async function generateKeyPair(contractName: string, secretPrefix: string) {
 
 async function main() {
     console.log(`Starting with LIVE: ${isLive}`)
-    if (!isLive) {
+    if (isLive) {
         console.log('Waiting for 30s before starting live operations!')
         await new Promise(r => setTimeout(r, 30000));
     }
