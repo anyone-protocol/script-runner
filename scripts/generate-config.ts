@@ -58,7 +58,7 @@ async function main() {
         await adminWallet.sendTransaction({ to: registratorOperatorAddress, value: ethers.utils.parseEther('0.1') })
         await adminWallet.sendTransaction({ to: facilitatorDeployerAddress, value: ethers.utils.parseEther('0.01') })
         await adminWallet.sendTransaction({ to: facilitatorOperatorAddress, value: ethers.utils.parseEther('0.1') })
-        console.log(`Send initial funding coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`
+        console.log(`Send initial funding coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`)
     } else console.log(`Skipping sending coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`)
 
     console.log('DONE')
