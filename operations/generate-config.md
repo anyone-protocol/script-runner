@@ -5,16 +5,9 @@
  + vault token - VAULT_DEPLOY_CONFIG_TOKEN: 
        vault token create -display-name=generate-secrets-sepolia -ttl=7d -policy=generate-secrets-sepolia -renewable=false -type=batch
        generate-secrets-sepolia policy to update vault values:
-           ator-token/sepolia/+/TOKEN_DEPLOYER_KEY
-           ator-token/sepolia/+/TOKEN_DEPLOYER_ADDRESS
-           registrator/sepolia/+/REGISTRATOR_DEPLOYER_KEY
-           registrator/sepolia/+/REGISTRATOR_DEPLOYER_ADDRESS
-           registrator/sepolia/+/REGISTRATOR_OPERATOR_ADDRESS
-           registrator/sepolia/+/REGISTRATOR_OPERATOR_KEY
-           facilitator/sepolia/+/FACILITATOR_DEPLOYER_KEY
-           facilitator/sepolia/+/FACILITATOR_DEPLOYER_ADDRESS
-           facilitator/sepolia/+/FACILITATOR_OPERATOR_ADDRESS
-           facilitator/sepolia/+/FACILITATOR_OPERATOR_KEY
+           ator-token/sepolia
+           registrator/sepolia
+           facilitator/sepolia
    
  Prepares deployment of:
  1. ATOR token

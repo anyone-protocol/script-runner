@@ -87,7 +87,7 @@ async function main() {
     const adminWallet = new ethers.Wallet(process.env.DEPLOY_ADMIN_KEY || 'DEPLOY_ADMIN_KEY-not-set', provider)
     console.log(`Loaded deploy admin wallet ${adminWallet.address}`)
 
-    if (false && isLive) {
+    if (isLive) {
         await adminWallet.sendTransaction({ to: atorTokenDeployerAddress, value: ethers.utils.parseEther('0.01') })
         await adminWallet.sendTransaction({ to: registratorDeployerAddress, value: ethers.utils.parseEther('0.01') })
         await adminWallet.sendTransaction({ to: registratorOperatorAddress, value: ethers.utils.parseEther('0.1') })
