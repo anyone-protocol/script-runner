@@ -88,11 +88,17 @@ async function main() {
     console.log(`Loaded deploy admin wallet ${adminWallet.address}`)
 
     if (isLive) {
-        await adminWallet.sendTransaction({ to: atorTokenDeployerAddress, value: ethers.utils.parseEther('0.01'), nonce: await adminWallet.getTransactionCount() })
-        await adminWallet.sendTransaction({ to: registratorDeployerAddress, value: ethers.utils.parseEther('0.01'), nonce: await adminWallet.getTransactionCount() })
-        await adminWallet.sendTransaction({ to: registratorOperatorAddress, value: ethers.utils.parseEther('0.1'), nonce: await adminWallet.getTransactionCount() })
-        await adminWallet.sendTransaction({ to: facilitatorDeployerAddress, value: ethers.utils.parseEther('0.01'), nonce: await adminWallet.getTransactionCount() })
-        await adminWallet.sendTransaction({ to: facilitatorOperatorAddress, value: ethers.utils.parseEther('0.1'), nonce: await adminWallet.getTransactionCount() })
+        let nonce = await adminWallet.getTransactionCount()
+        nonce++
+        await adminWallet.sendTransaction({ to: atorTokenDeployerAddress, value: ethers.utils.parseEther('0.01'), nonce: nonce })
+        nonce++
+        await adminWallet.sendTransaction({ to: registratorDeployerAddress, value: ethers.utils.parseEther('0.01'), nonce: nonce })
+        nonce++
+        await adminWallet.sendTransaction({ to: registratorOperatorAddress, value: ethers.utils.parseEther('0.1'), nonce: nonce })
+        nonce++
+        await adminWallet.sendTransaction({ to: facilitatorDeployerAddress, value: ethers.utils.parseEther('0.01'), nonce: nonce })
+        nonce++
+        await adminWallet.sendTransaction({ to: facilitatorOperatorAddress, value: ethers.utils.parseEther('0.1'), nonce: nonce })
         console.log(`Sent initial funding coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`)
     } else console.log(`Skipping sending coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`)
 
