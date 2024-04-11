@@ -13,7 +13,8 @@ const vault = require('node-vault')({
     token: process.env.VAULT_TOKEN || 'invalid-token'
 })
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.JSON_RPC || 'JSON_RPC-not-set')
+const jsonRpc = process.env.JSON_RPC || 'JSON_RPC-not-set'
+const provider = new ethers.providers.JsonRpcProvider(jsonRpc)
 const adminWallet = new ethers.Wallet(process.env.DEPLOY_ADMIN_KEY || 'DEPLOY_ADMIN_KEY-not-set', provider)
 
 function makeVaultPath(root: string, network: string, phase: string) {
@@ -27,7 +28,7 @@ async function generateDeployer(contractName: string, secretPrefix: string) {
     let keySecret = `${secretPrefix}_DEPLOYER_KEY`
     let addressSecret = `${secretPrefix}_DEPLOYER_ADDRESS`
     if(isLive) {
-        let data = { "data": { [keySecret]: wallet.privateKey, [addressSecret]: wallet.address } }
+        let data = { "data": { [keySecret]: wallet.privateKey, [addressSecret]: wallet.address, "JSON_RPC": jsonRpc } }
         console.log(`${vaultPath} = ${JSON.stringify(data)}`)
         try {
             await vault.write(vaultPath, data)
@@ -56,7 +57,8 @@ async function generateDeployerAndOperator(contractName: string, secretPrefix: s
     if(isLive) {
         let data = { "data": { 
             [deployerKeySecret]: deployer.privateKey, [deployerAddressSecret]: deployer.address, 
-            [operatorKeySecret]: operator.privateKey, [operatorAddressSecret]: operator.address 
+            [operatorKeySecret]: operator.privateKey, [operatorAddressSecret]: operator.address,
+            "JSON_RPC": jsonRpc
         } }
         console.log(`${vaultPath} = ${JSON.stringify(data)}`)
         try {
