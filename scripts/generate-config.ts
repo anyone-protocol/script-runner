@@ -8,7 +8,7 @@ const phaseName = process.env.PHASE_NAME || 'PHASE_NAME-not-set'
 
 const vault = require('node-vault')({
     apiVersion: 'v1',
-    pathPrefix: '/kv/data/',
+    pathPrefix: '/kv/data',
     endpoint: process.env.VAULT_URI || 'http://127.0.0.1:8200',
     token: process.env.VAULT_TOKEN || 'invalid-token'
 })

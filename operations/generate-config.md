@@ -26,8 +26,8 @@
    vault:JSON_RPC - used to deploy the token
  
  Scripted:
- * vault:TOKEN_DEPLOYER_KEY - key of the deployer account for the token
- * consul:deployer-address - address of the deployer account for the token
+ * vault:TOKEN_DEPLOYER_KEY
+ * vault:TOKEN_DEPLOYER_ADDRESS
  * send Sepolia tokens from admin to the generated address
 
  ==== ready to run deploy scripts (deploy -> remove-limits + enable-trading) from ator-token/operations
@@ -62,7 +62,6 @@
  * vault:FACILITATOR_OPERATOR_KEY
  * vault:FACILITATOR_DEPLOYER_ADDRESS
  * vault:FACILITATOR_DEPLOYER_KEY
- * consul:deployer-address - address of the deployer account for the facilitator
  * send Sepolia tokens from admin to each of generated addresses
 
  ==== ready to run deploy script from facilitator/operations
