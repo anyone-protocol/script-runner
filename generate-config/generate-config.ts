@@ -94,10 +94,10 @@ async function main() {
     let [facilitatorDeployerAddress, facilitatorOperatorAddress] = await generateDeployerAndOperator('facilitator', 'FACILITATOR')
 
     if (isLive) {
-        await fund(atorTokenDeployerAddress, '0.01')
-        await fund(registratorDeployerAddress, '0.01')
+        await fund(atorTokenDeployerAddress, '0.2')
+        await fund(registratorDeployerAddress, '0.1')
         await fund(registratorOperatorAddress, '0.1')
-        await fund(facilitatorDeployerAddress, '0.01')
+        await fund(facilitatorDeployerAddress, '0.1')
         await fund(facilitatorOperatorAddress, '0.1')
     } else console.log(`Skipping sending coins to:\n ${atorTokenDeployerAddress}\n ${registratorDeployerAddress}\n ${registratorOperatorAddress}\n ${facilitatorDeployerAddress}\n ${facilitatorOperatorAddress}`)
 
