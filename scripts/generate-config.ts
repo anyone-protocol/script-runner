@@ -28,8 +28,16 @@ async function generateDeployer(contractName: string, secretPrefix: string) {
     if(isLive) {
         let data = { "data": { [keySecret]: wallet.privateKey, [addressSecret]: wallet.address } }
         console.log(`${vaultPath} = ${JSON.stringify(data)}`)
-        await vault.write(vaultPath, data)
-        console.log(`Stored ${vaultPath}`)
+        try {
+            await vault.write(vaultPath, data)
+            console.log(`Stored ${vaultPath}`)
+        } catch (e) {
+            // @ts-ignore
+            if (e.response != undefined) {
+                // @ts-ignore
+                console.error(`Requesting POST write to: ${vaultPath} \n${e.response.statusCode} => ${e.response.body}`)
+            }
+        }
     } else console.log(`Not live. Skipping ${vaultPath}`)
 
     return wallet.address
@@ -50,8 +58,16 @@ async function generateDeployerAndOperator(contractName: string, secretPrefix: s
             [operatorKeySecret]: operator.privateKey, [operatorAddressSecret]: operator.address 
         } }
         console.log(`${vaultPath} = ${JSON.stringify(data)}`)
-        await vault.write(vaultPath, data)
-        console.log(`Stored ${vaultPath}`)
+        try {
+            await vault.write(vaultPath, data)
+            console.log(`Stored ${vaultPath}`)
+        } catch (e) {
+            // @ts-ignore
+            if (e.response != undefined) {
+                // @ts-ignore
+                console.error(`Requesting POST write to: ${vaultPath} \n${e.response.statusCode} => ${e.response.body}`)
+            }
+        }
     } else console.log(`Not live. Skipping ${vaultPath}`)
 
     return [deployer.address, operator.address]
