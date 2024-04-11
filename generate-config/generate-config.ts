@@ -29,7 +29,7 @@ async function generateDeployer(contractName: string, secretPrefix: string) {
     let addressSecret = `${secretPrefix}_DEPLOYER_ADDRESS`
     if(isLive) {
         let data = { "data": { [keySecret]: wallet.privateKey, [addressSecret]: wallet.address, "JSON_RPC": jsonRpc } }
-        console.log(`${vaultPath} = ${JSON.stringify(data)}`)
+        // console.log(`${vaultPath} = ${JSON.stringify(data)}`)
         try {
             await vault.write(vaultPath, data)
             console.log(`Stored ${vaultPath}`)

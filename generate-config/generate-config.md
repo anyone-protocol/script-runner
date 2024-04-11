@@ -8,61 +8,65 @@ This script stores generated secrets in vault and funds created accounts.
        vault token create -display-name=generate-secrets-sepolia -ttl=7d -policy=generate-secrets-sepolia -renewable=false -type=batch
        generate-secrets-sepolia policy to 'update' vault values:
            ator-token/sepolia/dev|stage|live registrator/sepolia/dev|stage|live facilitator/sepolia/dev|stage|live
- 
+
+## Run the script
+`generate-config.hcl`
+
 ## ATOR token
  
 Scripted:
  * vault:TOKEN_DEPLOYER_KEY
  * vault:TOKEN_DEPLOYER_ADDRESS
- * vault:JSON_RPC - used to deploy the registrator
+ * vault:JSON_RPC
  * send Sepolia tokens from admin to the generated address
 
 Manual:
- + create vault policies: ator-token-sepolia-dev|stage|live
  + create consul tokens and policies: ator-token-sepolia-dev|stage|live
       write: ator-token/sepolia/*/address
  + generate and store: ator-token/sepolia/dev|stage|live
       vault:CONSUL_TOKEN - used by the token deploy job to set contract's address
-      vault:JSON_RPC - used to deploy the token
-      
+ + create vault policies: ator-token-sepolia-dev|stage|live
 
  + run deploy scripts (deploy -> remove-limits + enable-trading) from ator-token/operations
 
 ## Registrator contract
 
- Scripted:
+Scripted:
  * vault:REGISTRATOR_OPERATOR_ADDRESS
  * vault:REGISTRATOR_OPERATOR_KEY
  * vault:REGISTRATOR_DEPLOYER_ADDRESS
  * vault:REGISTRATOR_DEPLOYER_KEY
- * vault:JSON_RPC - used to deploy the registrator
+ * vault:JSON_RPC
  * send Sepolia tokens from admin to each of generated addresses
 
- Manual:
- + create vault policies: registrator-sepolia-dev|stage|live
+Manual:
  + create consul tokens and policies: registrator-sepolia-dev|stage|live
        write: registrator/sepolia/*/address
        read: ator-token/sepolia/*/address
  + generate and store: registrator/sepolia/dev|stage|live
    vault:CONSUL_TOKEN - used by registrator's deploy job to set the contract's address
+ + create vault policies: registrator-sepolia-dev|stage|live
 
- ==== ready to run deploy script from registrator/operations
+ + run deploy script from registrator/operations
  
- 3. Facilitator contract
+## Facilitator contract
 
- Scripted:
+Scripted:
  * vault:FACILITATOR_OPERATOR_ADDRESS
  * vault:FACILITATOR_OPERATOR_KEY
  * vault:FACILITATOR_DEPLOYER_ADDRESS
  * vault:FACILITATOR_DEPLOYER_KEY
+ * vault:JSON_RPC
  * send Sepolia tokens from admin to each of generated addresses
 
- Manual:
- - create vault policies: facilitator-dev-sepolia facilitator-stage-sepolia facilitator-live-sepolia
- - create consul tokens and policies: facilitator-dev-sepolia facilitator-stage-sepolia facilitator-live-sepolia
-       write: facilitator/sepolia/live/address facilitator/sepolia/stage/address facilitator/sepolia/live/address
- - generate and store: facilitator/sepolia/dev/... facilitator/sepolia/stage/... facilitator/sepolia/live/...
+Manual: 
+ + create consul tokens and policies: facilitator-sepolia-dev|stage|live
+       write: facilitator/sepolia/*/address
+       read: ator-token/sepolia/*/address
+ + generate and store: facilitator/sepolia/dev|stage|live
    vault:CONSUL_TOKEN - used by facilitator's deploy job to set the contract's address
+ + create vault policies: facilitator-sepolia-dev|stage|live
 
- ==== ready to run deploy script from facilitator/operations
- - send new ATOR tokens to new facilitator contracts (dev, stage, live)
+ + ready to run deploy scripts (deploy -> test-generate-accounts) from facilitator/operations
+
+ - send new ATOR tokens to new facilitator contracts
