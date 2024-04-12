@@ -60,7 +60,7 @@ async function generateDeployerAndOperator(contractName: string, secretPrefix: s
             [operatorKeySecret]: operator.privateKey, [operatorAddressSecret]: operator.address,
             "JSON_RPC": jsonRpc
         } }
-        console.log(`${vaultPath} = ${JSON.stringify(data)}`)
+        // console.log(`${vaultPath} = ${JSON.stringify(data)}`)
         try {
             await vault.write(vaultPath, data)
             console.log(`Stored ${vaultPath}`)
