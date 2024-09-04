@@ -69,4 +69,4 @@ Manual:
 
  + ready to run deploy scripts (deploy -> test-generate-accounts) from facilitator/operations
 
- - send new ATOR tokens to new facilitator contracts
+ - send new ATOR tokens to new facilitator contracts - `ator-token/scripts/fund-facilitator-...-sepolia.ts`
